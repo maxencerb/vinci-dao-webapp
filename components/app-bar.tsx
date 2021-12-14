@@ -2,6 +2,7 @@ import { Flex, Heading, IconButton, Spacer, useColorModeValue, useColorMode, But
 import { BsFillSunFill, BsFillMoonFill} from 'react-icons/bs'
 import React from 'react'
 import Account from '@components/web3/account'
+import MyMenu from './utils/menu'
 
 export default function AppBar() {
 
@@ -19,8 +20,11 @@ export default function AppBar() {
                 aria-label="Toggle color mode"
                 icon={<ToggleColorModeIcon/>}
                 onClick={toggleColorMode}
+                display={['none', 'inherit']}
+                mr='3'
             />
             <Account/>
+            <MyMenu />
         </Flex>
         <Divider />
     </>
