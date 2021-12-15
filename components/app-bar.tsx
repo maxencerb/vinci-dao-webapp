@@ -8,11 +8,14 @@ export default function AppBar() {
 
     const ToggleColorModeIcon = useColorModeValue(BsFillSunFill, BsFillMoonFill)
     const { colorMode, toggleColorMode } = useColorMode()
+    const bgColor = useColorModeValue('gray.100', 'gray.900')
 
     return (<>
         <Flex
             p="4"
             align="center"
+            bg={bgColor}
+            position='sticky'
         >
             <Heading>Vinci DAO</Heading>
             <Spacer />
