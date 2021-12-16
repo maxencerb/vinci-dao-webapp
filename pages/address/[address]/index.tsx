@@ -1,5 +1,6 @@
 import { Button, Container, Flex, Heading, HStack, IconButton, Tooltip, useToast, VStack } from '@chakra-ui/react'
 import AppBar from '@components/app-bar'
+import { isValidAddress } from '@services/address'
 import { GetServerSideProps, NextPage } from 'next'
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
@@ -84,10 +85,19 @@ const Address = ({address}: Props) => {
     )
 }
 
-export const getServerSideProps: GetServerSideProps = async ({ query }) => {
+export const getServerSideProps: GetServerSideProps<Props> = async ({ query }) => {
+    
+    const address = query.address
+
+    if (address || typeof address !== 'string' || !isValidAddress(address)) {
+        return {
+            notFound: true
+        }
+    }
+    
     return {
         props: {
-            address: query.address as string
+            address: address
         }
     }
 }
