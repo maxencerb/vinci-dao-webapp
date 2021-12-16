@@ -1,10 +1,10 @@
-import { Button, Container, Flex, Heading, HStack, Tooltip, VStack } from '@chakra-ui/react'
+import { Button, Container, Flex, VStack } from '@chakra-ui/react'
 import AppBar from '@components/app-bar'
+import NameTag from '@components/utils/name-tag'
+import Identicon from '@components/web3/ident-icon'
 import { isValidAddress } from '@services/address'
 import { GetServerSideProps } from 'next'
-import React, { useEffect, useState } from 'react'
-import { BsClipboard } from 'react-icons/bs'
-import { MdVerified, MdOutlineVerified } from 'react-icons/md'
+import React from 'react'
 
 type Props = {
     address: string
@@ -17,16 +17,6 @@ const Address = ({address}: Props) => {
     const verified = true // TODO: verify if address is a student of DeVinci
     const hasGraduated = true // TODO: verify if address has graduated
 
-    const [copied, setCopied] = useState(false);
-
-    useEffect(() => {
-        if (copied) {
-            setTimeout(() => {
-                setCopied(false);
-            }, 3000);
-        }
-    }, [copied])
-
     return (
         <Flex
             direction='column'
@@ -37,47 +27,17 @@ const Address = ({address}: Props) => {
                 mt='10'
             >
                 <VStack
-                    spacing='10'
+                    spacing='8'
                 >
-                    <HStack>
-                        <Tooltip
-                            label={copied ? 'Copied!' : 'Copy address'}
-                            aria-label={copied ? 'Copied!' : 'Copy address'}
-                            hasArrow
-                        >
-                            <Button
-                                onClick={() => {
-                                    if (copied) return
-                                    setCopied(true)
-                                    navigator.clipboard.writeText(address)
-                                }}
-                                rightIcon={<BsClipboard />}
-                                variant='ghost'
-                                p='4'
-                            >
-                                <Heading overflowWrap='anywhere' fontSize='2xl' mr='2'>{address.slice(0, 15)}...</Heading>
-                            </Button>
-                        </Tooltip>
-                        {hasGraduated ? (
-                            <Tooltip
-                                label='Graduated'
-                                hasArrow
-                            >
-                                <span>
-                                    <MdVerified size='1.5em' />
-                                </span>
-                            </Tooltip>
-                        ) : (
-                            verified && <Tooltip
-                                label='Student'
-                                hasArrow
-                            >
-                                <span>
-                                    <MdOutlineVerified size='1.5em' />
-                                </span>
-                            </Tooltip>
-                        )}
-                    </HStack>
+                    <Identicon
+                        address={address}
+                        diameter={100}
+                    />
+                    <NameTag
+                        address={address}
+                        hasGraduated={hasGraduated}
+                        verified={verified}
+                    />
                 </VStack>
             </Container>
         </Flex>
