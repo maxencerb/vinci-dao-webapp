@@ -8,7 +8,7 @@ export default function AppBar() {
 
     const ToggleColorModeIcon = useColorModeValue(BsFillSunFill, BsFillMoonFill)
     const { colorMode, toggleColorMode } = useColorMode()
-    const bgColor = useColorModeValue('gray.100', 'gray.900')
+    const bgColor = useColorModeValue('purple.100', 'gray.900')
 
     return (<>
         <Flex

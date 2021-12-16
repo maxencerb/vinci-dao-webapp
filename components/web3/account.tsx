@@ -21,6 +21,7 @@ import {
 import { formatEther } from "@ethersproject/units";
 import Identicon from './ident-icon';
 import { IoOpenOutline } from 'react-icons/io5';
+import NextLink from 'next/link'
 
 export default function Account() {
 
@@ -31,6 +32,11 @@ export default function Account() {
         activateBrowserWallet();
     }
 
+    const accountShort = account && `${account.slice(0, 6)}...${account.slice(
+        account.length - 4,
+        account.length
+        )}`
+
     const accountBgColor = useColorModeValue('gray.300', 'gray.800');
 
     return account ? (
@@ -39,11 +45,7 @@ export default function Account() {
                 <Button>
                     <Text display={['none', 'block']}>{etherBalance && parseFloat(formatEther(etherBalance)).toFixed(3)} ETH</Text>
                     <Box as="span" px='3' py='2' ml='3' mr='3' bg={accountBgColor} fontSize="sm" rounded='md'>
-                        <Text as="span" fontSize="xs"> {account &&
-                        `${account.slice(0, 6)}...${account.slice(
-                        account.length - 4,
-                        account.length
-                        )}`}</Text>
+                        <Text as="span" fontSize="xs">{accountShort && accountShort}</Text>
                     </Box>
                     <Identicon />
                 </Button>
@@ -56,17 +58,31 @@ export default function Account() {
                     </PopoverHeader>
                     <PopoverCloseButton />
                     <PopoverBody>
-                        <Link color='blue.400' href={account ? `https://rinkeby.etherscan.io/address/${account}` : ''} target='_blank'>
+                        <Link color='blue.400' href={account ? `https://etherscan.io/address/${account}` : ''} target='_blank'>
                             <Flex align='center'>
                                 <Text mr={['0', '1']}>
-                                    {account &&
-                                    `${account.slice(0, 6)}...${account.slice(
-                                    account.length - 4,
-                                    account.length
-                                    )}`} on Etherscan
+                                    {accountShort && accountShort} on Etherscan
                                 </Text> 
                                 <IoOpenOutline />
                             </Flex>
+                        </Link>
+                        <Link color='blue.400' href={account ? `https://polygonscan.com/address/${account}` : ''} target='_blank'>
+                            <Flex align='center'>
+                                <Text mr={['0', '1']}>
+                                    {accountShort && accountShort} on PolygonScan
+                                </Text> 
+                                <IoOpenOutline />
+                            </Flex>
+                        </Link>
+                        <Link color='blue.400'>
+                            <NextLink href={account ? `/address/${account}` : ''}>
+                                <Flex align='center'>
+                                    <Text mr={['0', '1']}>
+                                        {accountShort && accountShort} on VinciDAO
+                                    </Text> 
+                                    <IoOpenOutline />
+                                </Flex>
+                            </NextLink>
                         </Link>
                         <Text>{etherBalance && parseFloat(formatEther(etherBalance))} ETH</Text>
                         <Flex>
